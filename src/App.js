@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Buscador from './componentes/Buscador';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    termino : ''
+  }
+
+  consultarApi = () => {
+    const url = `https://pixabay.com/api/?key=14489647-cbeeb0895ff91fd9e58386bca&q=${this.state.termino}`
+    console.log(url);
+  }
+
+  datosBusqueda = (termino) => {
+    // Setear el state y hacer un callback
+    this.setState({
+      termino
+    }, () => {
+      this.consultarApi();
+    });
+  }
+
+  render() {
+    return (
+      <div className="app container">
+        <div className="jumbotron">
+          <p className="lead text-center">Buscador de img</p>
+          {/* utilizar el componente */}
+          <Buscador
+            // props => pasar del padre al hijo data
+            datosBusqueda={this.datosBusqueda}
+          />
+        </div>
+        {this.state.termino}
+      </div>
+    );
+  }
 }
 
 export default App;
